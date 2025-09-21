@@ -20,7 +20,7 @@ RUN npm run build
 EXPOSE 3000
 
 #------second stage--------
-FROM node:16-slim AS final
+FROM node:16-alpine AS final
 
 WORKDIR /app
 
