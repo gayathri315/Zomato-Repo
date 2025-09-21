@@ -19,11 +19,23 @@ RUN npm run build
 # Expose port 3000 (or the port your app is configured to listen on)
 EXPOSE 3000
 
+#------second stage--------
+FROM node:16-slim AS final
 
-FROM Builder AS final
+WORKDIR /app
 
+# Copy only package.json first for better caching
+COPY package*.json ./
 RUN npm install --production
+
+# Copy backend/server code
 COPY . .
+
+# Copy built frontend from builder stage
+COPY --from=builder /app/build ./build
+
+# Expose port 3000 (or the port your app is configured to listen on)
+EXPOSE 3000
 
 # Start your Node.js server (assuming it serves the React app)
 CMD ["npm", "start"]
