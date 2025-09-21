@@ -20,7 +20,7 @@ RUN npm run build
 EXPOSE 3000
 
 
-FROM Builder as final
+FROM Builder AS final
 
 RUN npm install --production
 COPY . .
