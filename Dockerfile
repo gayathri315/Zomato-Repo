@@ -1,5 +1,5 @@
 # Use Node.js 16 slim as the base image
-FROM node:16-slim
+FROM node:16-slim AS Builder
 
 # Set the working directory
 WORKDIR /app
@@ -18,6 +18,12 @@ RUN npm run build
 
 # Expose port 3000 (or the port your app is configured to listen on)
 EXPOSE 3000
+
+
+FROM Builder as final
+
+RUN npm install --production
+COPY . .
 
 # Start your Node.js server (assuming it serves the React app)
 CMD ["npm", "start"]
